@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using static System.Console;
 
 namespace Lab09
@@ -26,7 +27,7 @@ namespace Lab09
                 char currentPlayer = turn % 2 == 0 ? 'X' : 'O';
                 WriteLine("Current Board: ");
                 DisplayBoard(board);
-                MakeMove(currentPlayer, board);
+                board = MakeMove(currentPlayer, board);
                 if (HasWinner(board))
                 {
                     winner = currentPlayer;
@@ -54,6 +55,86 @@ namespace Lab09
             }
         }
 
+        public static void DisplayBoard(char[] board)
+        {
+            WriteLine(" a | b | c");
+            WriteLine("---+---+---");
+            WriteLine(" d | e | f ");
+            WriteLine("---+---+---");
+            WriteLine(" g | h | i ");
+        }
+
+        public static bool HasWinner(char[] board)
+        {
+            char[] row1 = new char[3] { board[0], board[1], board[2] };
+            char[] row2 = new char[3] { board[3], board[4], board[5] };
+            char[] row3 = new char[3] { board[6], board[7], board[8] };
+            char[] col1 = new char[3] { board[0], board[3], board[6] };
+            char[] col2 = new char[3] { board[1], board[4], board[7] };
+            char[] col3 = new char[3] { board[2], board[5], board[8] };
+            char[] diagonal1 = new char[3] { board[0], board[4], board[8] };
+            char[] diagonal2 = new char[3] { board[2], board[4], board[6] };
+
+
+            if (CellsAreTheSame(row1) || CellsAreTheSame(row2) || CellsAreTheSame(row3) || CellsAreTheSame(col1) || CellsAreTheSame(col2) || CellsAreTheSame(col3) || CellsAreTheSame(diagonal1) || CellsAreTheSame(diagonal2))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private static bool CellsAreTheSame(char[] cells)
+        {
+            if(cells[0] == cells[1] && cells[0] == cells[2])
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static char[] MakeMove(char player, char[] board)
+        {
+            char[] newBoard = new char[9];
+            char playerSymbol;
+
+            if(player == 0)
+            {
+                playerSymbol = 'X';
+            }
+            else
+            {
+                playerSymbol = 'O';
+            }
+
+            char cell = 'n';
+
+            do
+            {
+                Write("Please enter the cell you want to make your move (a-i): ");
+                cell = char.Parse(ReadLine());
+
+                switch (cell)
+                {
+                    //based on cell update board and assign newBoard the modified board.
+                }
+            }
+            while (!CanUpdateCell(cell, playerSymbol));
+
+            return newBoard;
+        }
+
+        private static bool CanUpdateCell(char cell, char player)
+        {
+            //check if cell is not X or O return true if so false if not
+            return true;
+        }
+
         // TODO: write the functions used in main (and any other helper functions you want to use)
 
         // DisplayBoard
@@ -72,8 +153,14 @@ namespace Lab09
          * returns true if the board has a winner
          */
         // hint: just return true if you can find three-in-a-row
-        // of any character; consider writing the function 'same'
+        // of any character; consider writing the function 'CellsAreTheSame'
         // described below
+
+        // optional function to help with HasWinner
+        //bool CellsAreTheSame(char a, char b, char c);
+        /**
+         *  returns true if a, b, and c are all the same
+         */
 
         //MakeMove
         /**
@@ -95,10 +182,5 @@ namespace Lab09
          * returns false
          */
 
-        // optional function to help with HasWinner
-        //bool Same(char a, char b, char c);
-        /**
-         *  returns true if a, b, and c are all the same
-         */        
     }
 }
